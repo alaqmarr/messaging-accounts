@@ -68,7 +68,7 @@ const Status = () => {
 
         <Drawer>
             <DrawerTrigger>
-                <Button variant={"secondary"}>
+                <Button variant={"secondary"} className='w-full'>
                     New Payment Status
                 </Button>
             </DrawerTrigger>

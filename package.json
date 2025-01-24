@@ -21,7 +21,9 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "currency-formatter": "^1.5.9",
     "date-fns": "^4.1.0",
+    "format-currency": "^1.0.0",
     "lucide-react": "^0.474.0",
     "next": "15.1.6",
     "qr-creator": "^1.0.0",
@@ -42,6 +44,7 @@
     "@types/react-dom": "^19",
     "postcss": "^8",
     "prisma": "^6.2.1",
+    "rupee-formatter": "^1.0.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

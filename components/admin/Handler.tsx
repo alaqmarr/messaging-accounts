@@ -68,7 +68,7 @@ const Handler = () => {
 
         <Drawer>
             <DrawerTrigger>
-                <Button variant={"secondary"}>
+                <Button variant={"secondary"} className='w-full'>
                     New Handler
                 </Button>
             </DrawerTrigger>

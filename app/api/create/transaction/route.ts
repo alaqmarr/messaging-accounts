@@ -12,6 +12,7 @@ export async function POST(req: Request) {
     date,
     handlerId,
     paymentModeId,
+    type,
   } = data;
   const month = new Date(date).getMonth() + 1;
   const year = new Date(date).getFullYear();
@@ -41,8 +42,9 @@ export async function POST(req: Request) {
         message,
         paymentModeId,
         comments,
-        statusId,
+        statusId: amount > 0 ? statusId : "paid",
         date,
+        type,
         handlerId,
         monthYearId: monthYear,
       },

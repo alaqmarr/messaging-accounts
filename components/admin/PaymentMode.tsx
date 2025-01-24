@@ -68,7 +68,7 @@ const PaymentMode = () => {
 
         <Drawer>
             <DrawerTrigger>
-                <Button variant={"secondary"}>
+                <Button variant={"secondary"} className='w-full'>
                     New Payment Mode
                 </Button>
             </DrawerTrigger>

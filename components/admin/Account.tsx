@@ -84,7 +84,7 @@ const Account = () => {
     return (
         <Drawer>
             <DrawerTrigger>
-                <Button>New Account</Button>
+                <Button variant={'secondary'} className='w-full'>New Account</Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader>

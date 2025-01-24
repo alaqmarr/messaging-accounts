@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
 import { Toaster } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import NavBar from "@/components/NavBar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,7 +26,7 @@ const poppins = Poppins({
   weight: ["500"]
 });
 
-export default function RootLayout({
+export default function DashLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -38,6 +39,7 @@ export default function RootLayout({
         )}
       >
         <Toaster position="top-right" />
+        <NavBar/>
         {children}
       </body>
     </html>

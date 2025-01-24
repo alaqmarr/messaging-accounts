@@ -45,13 +45,14 @@ interface Account {
 
 const formSchema = z.object({
   towardsId: z.string().min(1, "Please select an account."),
-  amount: z.number().min(0.01, "Amount must be greater than zero."),
+  amount: z.number(),
   message: z.string().min(1, "Message is required."),
   comments: z.string().optional(),
   statusId: z.string().min(1, "Status is required."),
   date: z.string().min(1, "Date is required."),
   handlerId: z.string().min(1, "Please select a handler."),
-  paymentModeId: z.string().min(1, "Please select a payment mode.")
+  paymentModeId: z.string().min(1, "Please select a payment mode."),
+  type: z.string().min(1, "Please select a type.")
 });
 
 export function TransactionForm() {
@@ -77,7 +78,8 @@ export function TransactionForm() {
       statusId: "",
       date: "",
       handlerId: "",
-      paymentModeId: ""
+      paymentModeId: "",
+      type: ""
     },
   });
   useEffect(() => {
@@ -228,6 +230,34 @@ export function TransactionForm() {
                           {status.name}
                         </SelectItem>
                       ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Type */}
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Message Type</FormLabel>
+              <FormControl>
+                <Select {...field} onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Payment Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="Image">Image</SelectItem>
+                      <SelectItem value="Video">Video</SelectItem>
+                      <SelectItem value="Text">Text</SelectItem>
+                      <SelectItem value="Document">Document</SelectItem>
+                      <SelectItem value="Audio">Audio</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
