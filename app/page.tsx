@@ -8,10 +8,20 @@ import { TransactionForm } from '@/components/admin/Transaction';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import prismadb from '@/lib/db'
-import { DollarSign, IdCardIcon, PlusCircleIcon } from 'lucide-react';
+import { DollarSign, EyeIcon, IdCardIcon, PlusCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 import { QRCodeSVG } from 'qrcode.react';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 const revalidate = 0;
 const HomePage = async () => {
   const paymentModes = await prismadb.paymentMode.findMany();
@@ -111,7 +121,7 @@ const HomePage = async () => {
           <Button
             className='w-full'
           >
-            <PlusCircleIcon/> New Transaction
+            <PlusCircleIcon /> New Transaction
           </Button>
         </Link>
         <PaymentMode />
@@ -119,6 +129,43 @@ const HomePage = async () => {
         <Payee />
         <Handler />
         <Account />
+      </div>
+
+
+      <div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Towards</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Payment Mode</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {transactions.map((transaction) => (
+              <TableRow key={transaction.id}>
+                <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+                <TableCell>{transaction.towardsId}</TableCell>
+                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>{transaction.statusId}</TableCell>
+                <TableCell>{transaction.paymentModeId}</TableCell>
+                <TableCell>
+                  <Link href={`/view/transaction/${transaction.id}`}>
+                    <Button
+                      className='w-full'
+                    >
+                      <EyeIcon /> View
+                    </Button>
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   )

@@ -8,11 +8,11 @@ const Transaction = () => {
             className='flex flex-col items-center justify-center p-5'
         >
             <p
-            className='font-bold text-2xl'
+                className='font-bold text-2xl'
             >
                 Create a new transaction
             </p>
-            <Separator className='mt-3 mb-3 w-full bg-black'/>
+            <Separator className='mt-3 mb-3 w-full bg-black' />
             <TransactionForm />
         </div>
     )
