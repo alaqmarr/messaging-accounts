@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id            String      @id @default(cuid())
+  amount        Float
+  message       String
+  comments      String
+  statusId      String
+  contact       String?
+  type          String
+  paymentModeId String
+  paymentMode   PaymentMode @relation(fields: [paymentModeId], references: [id])
+  status        Status      @relation(fields: [statusId], references: [id])
+  date          DateTime
+  monthYearId   String
+  monthYear     MonthYear   @relation(fields: [monthYearId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  handlerId     String
+  handledBy     handlers    @relation(fields: [handlerId], references: [id])
+  towardsId     String
+  towards       Accounts    @relation(fields: [towardsId], references: [id])
+}
+
+model handlers {
+  id   String @id @default(cuid())
+  name String
+
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Status {
+  id   String @id @default(cuid())
+  name String
+
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Accounts {
+  id           String        @id @default(cuid())
+  name         String
+  payeeId      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  payee        Payee         @relation(fields: [payeeId], references: [id])
+}
+
+model Payee {
+  id       String     @id @default(cuid())
+  name     String
+  accounts Accounts[]
+}
+
+model PaymentMode {
+  id           String        @id @default(cuid())
+  name         String
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model MonthYear {
+  id           String        @id @default(cuid())
+  month        Int
+  year         Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+}
