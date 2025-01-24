@@ -5,9 +5,13 @@ import Payee from '@/components/admin/Payee'
 import PaymentMode from '@/components/admin/PaymentMode'
 import Status from '@/components/admin/Status'
 import { TransactionForm } from '@/components/admin/Transaction';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import prismadb from '@/lib/db'
+import { DollarSign, IdCardIcon, PlusCircleIcon } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react'
+import { QRCodeSVG } from 'qrcode.react';
 const revalidate = 0;
 const HomePage = async () => {
   const paymentModes = await prismadb.paymentMode.findMany();
@@ -19,21 +23,29 @@ const HomePage = async () => {
   const monthYear = await prismadb.monthYear.findMany();
   return (
     <div className='p-5 flex flex-col items-center justify-center space-y-4'>
-      <div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4'>
+      <div className='w-full gap-x-3 gap-y-3 grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4'>
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Payment Modes
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {paymentModes.length}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Statuses
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {statuses.length}
           </CardContent>
 
@@ -41,50 +53,72 @@ const HomePage = async () => {
 
 
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Accounts
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {accounts.length}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Transactions
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {transactions.length}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Handlers
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {handlers.length}
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader
+            className='w-full items-start font-bold text-2xl'
+          >
             Payee
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className='text-xl'
+          >
             {payee.length}
           </CardContent>
         </Card>
 
       </div>
 
-      <div className='flex flex-col items-center justify-center gap-y-3'>
+      <div className='w-full flex items-center justify-around gap-y-3 flex-wrap'>
+        <Link href='/new/transaction'>
+          <Button
+            className='w-full'
+          >
+            <PlusCircleIcon/> New Transaction
+          </Button>
+        </Link>
         <PaymentMode />
         <Status />
         <Payee />
         <Handler />
         <Account />
-        <TransactionForm />
       </div>
     </div>
   )

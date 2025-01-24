@@ -135,7 +135,7 @@ export function TransactionForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-2 gap-y-2">
         {/* Account Selection */}
         <FormField
           control={form.control}
@@ -145,12 +145,11 @@ export function TransactionForm() {
               <FormLabel>Account</FormLabel>
               <FormControl>
                 <Select onValueChange={(value) => { field.onChange(value); handleAccountChange(value); }} defaultValue={field.value}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select an account" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Accounts</SelectLabel>
                       {accounts.map((account: any) => (
                         <SelectItem key={account.id} value={account.id}>
                           {account.name}
@@ -219,12 +218,11 @@ export function TransactionForm() {
               <FormLabel>Status</FormLabel>
               <FormControl>
                 <Select {...field} onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select status" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Payment Status" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Status</SelectLabel>
                       {statuses.map((status: any) => (
                         <SelectItem key={status.id} value={status.id}>
                           {status.name}
@@ -249,12 +247,11 @@ export function TransactionForm() {
               <FormLabel>Payment Mode</FormLabel>
               <FormControl>
                 <Select {...field} onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select payment mode" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Payment Mode" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Payment Modes</SelectLabel>
                       {paymentModes.map((paymentMode: any) => (
                         <SelectItem key={paymentMode.id} value={paymentMode.id}>
                           {paymentMode.name}
@@ -278,14 +275,13 @@ export function TransactionForm() {
               <FormLabel>Handler</FormLabel>
               <FormControl>
                 <Select {...field}
-                onValueChange={(value) => field.onChange(value)} defaultValue={field.value}
+                  onValueChange={(value) => field.onChange(value)} defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select handler" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Handled By" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Handlers</SelectLabel>
                       {handlers.map((handler: any) => (
                         <SelectItem key={handler.id} value={handler.id}>
                           {handler.name}
@@ -313,7 +309,7 @@ export function TransactionForm() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -345,7 +341,7 @@ export function TransactionForm() {
           )}
         />
 
-        <Button type="submit">Submit Transaction</Button>
+        <Button type="submit">Create Transaction</Button>
       </form>
     </Form>
   );
