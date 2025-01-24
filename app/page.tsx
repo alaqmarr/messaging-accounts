@@ -132,9 +132,9 @@ const HomePage = async () => {
       </div>
 
 
-      <div>
-        <Table>
-          <TableHeader>
+      <div className='w-full flex flex-col items-center justify-center'>
+        <Table className="max-w-[80vw]">
+        <TableHeader>
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Towards</TableCell>
