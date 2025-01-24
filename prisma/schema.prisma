@@ -14,7 +14,6 @@ model Transaction {
   comments      String
   statusId      String
   contact       String?
-  type          String
   paymentModeId String
   paymentMode   PaymentMode @relation(fields: [paymentModeId], references: [id])
   status        Status      @relation(fields: [statusId], references: [id])
@@ -51,6 +50,7 @@ model Accounts {
   id           String        @id @default(cuid())
   name         String
   payeeId      String
+  amount      Float?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   transactions Transaction[]

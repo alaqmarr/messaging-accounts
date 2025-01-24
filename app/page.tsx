@@ -4,10 +4,11 @@ import Handler from '@/components/admin/Handler';
 import Payee from '@/components/admin/Payee'
 import PaymentMode from '@/components/admin/PaymentMode'
 import Status from '@/components/admin/Status'
+import { TransactionForm } from '@/components/admin/Transaction';
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import prismadb from '@/lib/db'
 import React from 'react'
-
+const revalidate = 0;
 const HomePage = async () => {
   const paymentModes = await prismadb.paymentMode.findMany();
   const statuses = await prismadb.status.findMany();
@@ -82,7 +83,8 @@ const HomePage = async () => {
         <Status />
         <Payee />
         <Handler />
-        <Account/>
+        <Account />
+        <TransactionForm />
       </div>
     </div>
   )
