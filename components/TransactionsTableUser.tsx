@@ -6,6 +6,8 @@ import Link from "next/link"
 import { QRCodeSVG } from "qrcode.react"
 import { Separator } from "./ui/separator"
 import { IndianRupee } from "lucide-react"
+import CountUp from "./CountUp"
+import { ViewAlert } from "./ViewAlert"
 
 export default function PaymentPage({ transactions, payee, duration }: { transactions: Array<any>, payee: String, duration: String }) {
     // Filter transactions with status not paid
@@ -63,6 +65,7 @@ export default function PaymentPage({ transactions, payee, duration }: { transac
                                 <TableHead>Date</TableHead>
                                 <TableHead>Towards</TableHead>
                                 <TableHead>Type</TableHead>
+                                <TableHead>Message</TableHead>
                                 <TableHead>Amount</TableHead>
                                 <TableHead>Status</TableHead>
                             </TableRow>
@@ -72,7 +75,20 @@ export default function PaymentPage({ transactions, payee, duration }: { transac
                                 <TableRow key={transaction.id}>
                                     <TableCell>{new Date(transaction.date).toDateString()}</TableCell>
                                     <TableCell>{transaction.towards.name}</TableCell>
-                                    <TableCell>{transaction.amount}</TableCell>
+                                    <TableCell>
+                                        {
+                                            transaction.type || 'Text'
+                                        }
+                                    </TableCell>
+                                    <TableCell>
+                                        <ViewAlert
+                                            title={transaction.towards.name}
+                                            message={transaction.message}
+                                            buttonTitle='View'
+                                            onCancel={() => { }}
+                                            onConfirm={() => { }}
+                                        />
+                                    </TableCell>
                                     <TableCell>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'INR' }).format(transaction.amount)}</TableCell>
                                     <TableCell>{transaction.status.name}</TableCell>
                                 </TableRow>

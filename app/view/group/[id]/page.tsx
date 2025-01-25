@@ -1,4 +1,6 @@
 export const fetchCache = 'default-no-store';
+import Analytics from '@/components/Analytics';
+import Invoice from '@/components/Invoice';
 import PaymentPage from '@/components/TransactionsTableUser';
 import prismadb from '@/lib/db';
 import React from 'react';
@@ -54,29 +56,29 @@ const page = async ({
         // Fetch data based on the provided ID
         const data = id === 'jamaat'
             ? await prismadb.payee.findUnique({
-                  where: { id },
-                  include: {
-                      accounts: {
-                          include: {
-                              transactions: {
-                                  where: { monthYearId: { in: monthYearArr } },
-                                  include: { towards: true, status: true, paymentMode: true },
-                              },
-                              payee: true,
-                          },
-                      },
-                  },
-              })
+                where: { id },
+                include: {
+                    accounts: {
+                        include: {
+                            transactions: {
+                                where: { monthYearId: { in: monthYearArr } },
+                                include: { towards: true, status: true, paymentMode: true },
+                            },
+                            payee: true,
+                        },
+                    },
+                },
+            })
             : await prismadb.accounts.findUnique({
-                  where: { id },
-                  include: {
-                      transactions: {
-                          where: { monthYearId: { in: monthYearArr } },
-                          include: { towards: true, status: true, paymentMode: true },
-                      },
-                      payee: true,
-                  },
-              });
+                where: { id },
+                include: {
+                    transactions: {
+                        where: { monthYearId: { in: monthYearArr } },
+                        include: { towards: true, status: true, paymentMode: true },
+                    },
+                    payee: true,
+                },
+            });
 
         // Handle case where no data is found
         if (!data) {
@@ -94,7 +96,7 @@ const page = async ({
         } else if ('transactions' in data) {
             // Non-Jamaat case
             allTransactions = data.transactions;
-            payeeName = data.payee?.name;
+            payeeName = data?.name;
         }
 
         // Handle case where no transactions exist
@@ -109,11 +111,24 @@ const page = async ({
         // Render PaymentPage with all transactions
         return (
             <div>
-                <PaymentPage
-                    transactions={allTransactions}
-                    payee={payeeName || 'Unknown Payee'}
-                    duration={tz || currentMonthYear}
-                />
+
+                <div
+                    className='flex flex-col gap-y-4 items-center'
+                >
+                    <Analytics transactions={allTransactions} />
+                </div>
+
+                <div
+                    className='flex flex-col gap-y-4 items-center'
+                >
+                    <PaymentPage
+                        transactions={allTransactions}
+                        payee={payeeName || 'Unknown Payee'}
+                        duration={tz || currentMonthYear}
+                    />
+                </div>
+
+                <Invoice transactions={allTransactions} towards={payeeName || 'Unknown Payee'} billingPeriod={tz || currentMonthYear} />
             </div>
         );
     } catch (error) {

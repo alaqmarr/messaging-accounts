@@ -11,6 +11,8 @@ import {
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { EyeIcon } from 'lucide-react';
+import CountUp from './CountUp';
+import { ViewAlert } from './ViewAlert';
 
 const TransactionsTable = ({ transactions }: { transactions: Array<any> }) => {
     return (
@@ -34,7 +36,11 @@ const TransactionsTable = ({ transactions }: { transactions: Array<any> }) => {
                         <TableRow key={transaction.id}>
                             <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
                             <TableCell>{transaction.towards.name}</TableCell>
-                            <TableCell>{transaction.amount}</TableCell>
+                            <TableCell>
+                                <CountUp
+                                    to={transaction.amount}
+                                />
+                            </TableCell>
                             <TableCell>{transaction.status.name}</TableCell>
                             <TableCell>{transaction.paymentMode.name}</TableCell>
                             <TableCell>
@@ -45,6 +51,14 @@ const TransactionsTable = ({ transactions }: { transactions: Array<any> }) => {
                                         <EyeIcon /> View
                                     </Button>
                                 </Link>
+
+                                <ViewAlert
+                                    title={transaction.towards.name}
+                                    message={transaction.message}
+                                    buttonTitle='Message'
+                                    onCancel={() => { }}
+                                    onConfirm={() => { }}
+                                />
                             </TableCell>
                         </TableRow>
                     ))}

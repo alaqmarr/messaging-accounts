@@ -11,6 +11,7 @@ import {
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { EyeIcon } from 'lucide-react';
+import CountUp from './CountUp';
 
 const AccountsTable = ({ accounts }: { accounts: Array<any> }) => {
     return (
@@ -32,7 +33,11 @@ const AccountsTable = ({ accounts }: { accounts: Array<any> }) => {
                         <TableRow key={transaction.id}>
                             <TableCell>{transaction.name}</TableCell>
                             <TableCell>{transaction.payee.name}</TableCell>
-                            <TableCell>{transaction.transactions.length}</TableCell>
+                            <TableCell>
+                                <CountUp
+                                    to={transaction.transactions.length}
+                                />
+                            </TableCell>
                             <TableCell>
                                 <Link href={`/view/group/${transaction.id}`}>
                                     <Button
