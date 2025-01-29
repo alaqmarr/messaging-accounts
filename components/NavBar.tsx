@@ -16,13 +16,17 @@ import Handler from './admin/Handler'
 import Payee from './admin/Payee'
 import Status from './admin/Status'
 import { Separator } from './ui/separator'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 
 
 const NavBar = () => {
     return (
         <div
-            className='h-16 w-full flex p-5'
+            className='h-16 w-full flex p-5 justify-between'
         >
+            <div
+            className='w-full'
+            >
             <Sheet
             >
                 <SheetTrigger>
@@ -74,6 +78,20 @@ const NavBar = () => {
                     </SheetHeader>
                 </SheetContent>
             </Sheet>
+            </div>
+
+            <div
+            className='w-full flex items-center justify-end'
+            >
+                <SignedIn>
+                    {/* Mount the UserButton component */}
+                    <UserButton showName />
+                </SignedIn>
+                <SignedOut>
+                    {/* Signed out users get sign in button */}
+                    <SignInButton />
+                </SignedOut>
+            </div>
         </div>
 
     )
