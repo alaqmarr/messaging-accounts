@@ -40,6 +40,8 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
     };
 
 
+    const sortedTransactions = transactions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
     const totalAmount = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
     const totalDueAmount = transactions.reduce((acc, transaction) => {
         if (transaction.status.name !== 'Paid') {
@@ -160,7 +162,7 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
                         </thead>
                         <tbody>
                             {
-                                transactions.map((transaction, index) => (
+                                sortedTransactions.map((transaction, index) => (
                                     <tr className="border-b border-gray-200">
                                         <td className="py-4 px-4 text-sm">
                                             {index + 1}
