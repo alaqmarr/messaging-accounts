@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Toaster } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -38,7 +39,9 @@ export default function RootLayout({
         )}
       >
         <Toaster position="top-right" />
+        <ClerkProvider>
         {children}
+        </ClerkProvider>
       </body>
     </html>
   );

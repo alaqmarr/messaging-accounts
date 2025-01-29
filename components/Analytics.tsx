@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/chart"
 import CountUp from './CountUp';
 import { IndianRupeeIcon } from 'lucide-react';
+import { Table, TableBody, TableHeader, TableRow } from "./ui/table"
 
 const Analytics = ({ transactions }: { transactions: Array<any> }) => {
     const totalDueAmount = transactions.reduce((acc, transaction) => {
@@ -29,10 +30,9 @@ const Analytics = ({ transactions }: { transactions: Array<any> }) => {
     }, 0);
 
     const totalTransactions = transactions.length;
-    // from the transactions I want to sort by the number of transactions of each towards, and also then I want to get the name of the account which shall be accessible by transaction.payee.name
-
     const towards = transactions.map(transaction => transaction.towards.name);
     const uniqueTowards = [...new Set(towards)];
+    const sortedUniqueTowards = uniqueTowards.sort();
     const towardsCount = uniqueTowards.map(towards => {
         const count = transactions.filter(transaction => transaction.towards.name === towards).length;
         return { towards, count };
@@ -95,7 +95,7 @@ const Analytics = ({ transactions }: { transactions: Array<any> }) => {
                                         <div
                                             className="flex items-center"
                                         >
-                                            <IndianRupeeIcon /> <CountUp to={totalDueAmount} className='text-xl' />
+                                            <IndianRupeeIcon /> <CountUp to={totalDueAmount} className='text-2xl' />
                                         </div>
                                     ) : (
                                         <p className='text-xl'>All dues are cleared</p>
@@ -178,11 +178,36 @@ const Analytics = ({ transactions }: { transactions: Array<any> }) => {
                                 </Pie>
                             </PieChart>
                         </ChartContainer>
+
                     </CardContent>
+                    {
+                        uniqueTowards.length > 2 && (
+                            <CardFooter>
+                                <Table>
+                                    <TableHeader
+                                        className="w-full"
+                                    >
+                                        <TableRow
+                                            className="w-full items-start text-left"
+                                        >
+                                            <th>Towards</th>
+                                            <th>Messages</th>
+                                        </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {sortedUniqueTowards.map((towards, index) => (
+                                                <TableRow key={index}>
+                                                    <td>{towards}</td>
+                                                    <td>{towardsCount.find(({ towards: t }) => t === towards)?.count}</td>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                </Table>
+                            </CardFooter>
+                        )
+                    }
                 </Card>
             </div>
-
-
 
         </div>
     )

@@ -7,7 +7,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { MenuIcon, PlusCircleIcon } from 'lucide-react'
+import { HomeIcon, MenuIcon, PlusCircleIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import PaymentMode from './admin/PaymentMode'
@@ -15,6 +15,7 @@ import Account from './admin/Account'
 import Handler from './admin/Handler'
 import Payee from './admin/Payee'
 import Status from './admin/Status'
+import { Separator } from './ui/separator'
 
 
 const NavBar = () => {
@@ -29,14 +30,32 @@ const NavBar = () => {
                 </SheetTrigger>
                 <SheetContent
                 >
+
                     <SheetHeader>
-                        <SheetTitle>Are you absolutely sure?</SheetTitle>
-                        <SheetDescription>
+                        <SheetTitle>
+                            Navigation
+                        </SheetTitle>
+                        <Separator />
+                        <SheetDescription
+                        >
 
                             <div
                                 className='flex flex-col gap-y-6'
                             >
-
+                                <Link href='/'>
+                                    <Button
+                                        variant={"secondary"} className='w-full'
+                                    >
+                                        <HomeIcon /> Home
+                                    </Button>
+                                </Link>
+                                <Link href='/new/user'>
+                                    <Button
+                                        variant={"secondary"} className='w-full'
+                                    >
+                                        <PlusCircleIcon /> New Login Credentials
+                                    </Button>
+                                </Link>
                                 <Link href='/new/transaction'>
                                     <Button
                                         variant={"secondary"} className='w-full'
