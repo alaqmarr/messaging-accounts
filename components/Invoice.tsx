@@ -5,6 +5,8 @@ import { QRCodeSVG } from "qrcode.react";
 import React, { useRef } from "react";
 import { Separator } from "./ui/separator";
 import { AlertCircleIcon, CheckCircleIcon } from "lucide-react";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 const Invoice = ({ transactions, towards, billingPeriod }: {
     transactions: Array<any>,
@@ -46,7 +48,7 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
         return acc;
     }, 0);
 
-    const upiurl = `upi://pay?pa=toloba1@idfcbank&pn=${`Toloba%20Secunderabad-${towards}`}&am=${totalDueAmount}&cu=INR`;
+    const upiurl = `upi://pay?pa=toloba1@idfcbank&pn=${`Toloba%20Secunderabad-${towards}`}&tn=${towards + ' | ' + billingPeriod}&am=${totalDueAmount}&cu=INR`;
     return (
         <div className="bg-gray-100 min-h-screen p-6">
             {/* Invoice Content */}
