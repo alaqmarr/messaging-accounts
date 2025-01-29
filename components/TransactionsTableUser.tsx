@@ -15,7 +15,7 @@ export default function PaymentPage({ transactions, payee, duration }: { transac
     const totalNotPaidAmount = notPaidTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
     const transactionNote = encodeURIComponent(`Payment for ${payee} messages | ${duration}`);
-    const upiLink = `upi://pay?pa=alaqmarak0810-5@oksbi&pn=AlAqmar&tn=${transactionNote}&am=${totalNotPaidAmount}&cu=INR`;
+    const upiLink = `upi://pay?pa=toloba1@idfcbank&pn=${`Toloba%20Secunderabad-${payee}`}&tn=${transactionNote}&am=${totalNotPaidAmount}&cu=INR`;
 
     return (
         <div className="container mx-auto p-4 space-y-8">

@@ -176,7 +176,7 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
                                                 )
                                             }
                                             <p className="text-gray-500">
-                                                {transaction.message}
+                                                {transaction.message > 30 ? transaction.message.substring(0, 30) + '...' : transaction.message}
                                             </p>
                                         </td>
                                         <td className="hidden sm:table-cell px-3 text-right text-sm text-gray-500">
