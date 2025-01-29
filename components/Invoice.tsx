@@ -1,9 +1,12 @@
 "use client";
 
 import { format } from "date-fns";
+import { QRCodeSVG } from "qrcode.react";
 import React, { useRef } from "react";
+import { Separator } from "./ui/separator";
+import { AlertCircleIcon, CheckCircleIcon } from "lucide-react";
 
-const Invoice = ({transactions, towards, billingPeriod}: {
+const Invoice = ({ transactions, towards, billingPeriod }: {
     transactions: Array<any>,
     towards: string,
     billingPeriod: string
@@ -35,6 +38,15 @@ const Invoice = ({transactions, towards, billingPeriod}: {
     };
 
 
+    const totalAmount = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalDueAmount = transactions.reduce((acc, transaction) => {
+        if (transaction.status.name !== 'Paid') {
+            return acc + transaction.amount;
+        }
+        return acc;
+    }, 0);
+
+    const upiurl = `upi://pay?pa=toloba1@idfcbank&pn=${`Toloba%20Secunderabad-${towards}`}&am=${totalDueAmount}&cu=INR`;
     return (
         <div className="bg-gray-100 min-h-screen p-6">
             {/* Invoice Content */}
@@ -48,8 +60,8 @@ const Invoice = ({transactions, towards, billingPeriod}: {
                         <img
                             src="https://tolobasecunderabad.com/assets/img/hero-img.png"
                             alt="Company Logo"
-                            height={100}
-                            width={100}
+                            height={150}
+                            width={150}
                             className="rounded"
                         />
                     </div>
@@ -60,7 +72,7 @@ const Invoice = ({transactions, towards, billingPeriod}: {
                 </div>
 
                 {/* Billing Information */}
-                <div className="grid grid-cols-2 items-center mt-8">
+                <div className="grid grid-cols-2 items-start mt-8">
                     <div>
                         <p className="font-bold text-gray-800">Bill to:</p>
                         <p className="text-gray-500">
@@ -68,19 +80,60 @@ const Invoice = ({transactions, towards, billingPeriod}: {
                                 towards
                             }
                         </p>
-                    </div>
-                    <div className="text-right">
                         <p>
-                            <span className="font-semibold">Invoice date:</span><br/>
+                            <span className="font-semibold">Billing Period:</span><br />
+                            <span className="text-gray-500">
+                                {billingPeriod}
+                            </span>
+
+                        </p>
+                        <p>
+                            <span className="font-semibold">Invoice date:</span><br />
                             <span className="text-gray-500">
                                 {/* add with day */}
                                 {format(new Date(), "eeee, MMMM dd, yyyy")}
                             </span>
 
                         </p>
+
+                        <Separator className="mt-3 mb-3" />
+                        <p
+                            className="flex flex-col items-start"
+                        >
+                            <p className="text-left text-sm">
+                                Account Name : DAWOODI BOHRA JAMAAT TRUST SECBAD-TOLOBA<br />
+                                Account Number : 10174118307<br />
+                                IFSC : IDFB0080203<br />
+                                Bank : IDFC FIRST, Paradise Secunderabad Branch<br />
+                                SWIFT Code : IDFBINBBMUM
+                            </p>
+                        </p>
+                    </div>
+                    <div className="text-right">
+                        <p className="flex flex-col items-end">
+                            <span className="font-semibold">Scan to pay with UPI</span><br />
+                            <span className="text-gray-500">
+                                <QRCodeSVG value="https://tolobasecunderabad.com" size={150} />
+                            </span>
+
+                        </p>
                     </div>
                 </div>
-
+                <div className={`${totalDueAmount > 0 ? 'bg-orange-300' : 'bg-emerald-400'} flex flex-col items-center justify-center p-3 rounded-md mt-3`}>
+                    {
+                        totalDueAmount > 0 ? (
+                            <p className="flex gap-x-3">
+                                <AlertCircleIcon />
+                                Current due is ₹ {totalDueAmount}
+                            </p>
+                        )
+                            :
+                            <p className="flex gap-x-3">
+                                <CheckCircleIcon />
+                                All dues have been cleared
+                            </p>
+                    }
+                </div>
                 {/* Items Table */}
                 <div className="overflow-x-auto mt-8">
                     <table className="min-w-full border-collapse border border-gray-300">
@@ -104,20 +157,28 @@ const Invoice = ({transactions, towards, billingPeriod}: {
                             {
                                 transactions.map((transaction) => (
                                     <tr className="border-b border-gray-200">
-                                <td className="py-4 px-4 text-sm">
-                                    {
-                                        towards === 'Jamaat' && (
-                                            <p className="font-medium text-gray-900">
-                                                {transaction.towards.name}
-                                    </p>
-                                        )
-                                    }
-                                    <p className="text-gray-500">Laravel-based e-commerce platform.</p>
-                                </td>
-                                <td className="hidden sm:table-cell px-3 text-right text-sm text-gray-500">500.0</td>
-                                <td className="hidden sm:table-cell px-3 text-right text-sm text-gray-500">$100.00</td>
-                                <td className="px-4 text-right text-sm text-gray-500">$5,000.00</td>
-                            </tr>
+                                        <td className="py-4 px-4 text-sm">
+                                            {
+                                                towards === 'Jamaat' && (
+                                                    <p className="font-medium text-gray-900">
+                                                        {transaction.towards.name}
+                                                    </p>
+                                                )
+                                            }
+                                            <p className="text-gray-500">
+                                                {transaction.message}
+                                            </p>
+                                        </td>
+                                        <td className="hidden sm:table-cell px-3 text-right text-sm text-gray-500">
+                                            {format(new Date(transaction.date), "MMMM dd, yyyy")}
+                                        </td>
+                                        <td className="hidden sm:table-cell px-3 text-right text-sm text-gray-500">
+                                            {transaction.status.name}
+                                        </td>
+                                        <td className="px-4 text-right text-sm text-gray-500">
+                                            ₹ {transaction.amount}
+                                        </td>
+                                    </tr>
                                 ))
                             }
                         </tbody>
@@ -127,36 +188,11 @@ const Invoice = ({transactions, towards, billingPeriod}: {
                                     colSpan={3}
                                     className="hidden sm:table-cell px-4 py-4 text-right text-sm font-normal text-gray-500"
                                 >
-                                    Subtotal
-                                </th>
-                                <td className="px-4 py-4 text-right text-sm text-gray-500">$10,500.00</td>
-                            </tr>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    className="hidden sm:table-cell px-4 py-4 text-right text-sm font-normal text-gray-500"
-                                >
-                                    Tax
-                                </th>
-                                <td className="px-4 py-4 text-right text-sm text-gray-500">$1,050.00</td>
-                            </tr>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    className="hidden sm:table-cell px-4 py-4 text-right text-sm font-normal text-gray-500"
-                                >
-                                    Discount
-                                </th>
-                                <td className="px-4 py-4 text-right text-sm text-gray-500">-10%</td>
-                            </tr>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    className="hidden sm:table-cell px-4 py-4 text-right text-sm font-normal text-gray-500"
-                                >
                                     Total
                                 </th>
-                                <td className="px-4 py-4 text-right text-sm font-semibold text-gray-900">$9,450.00</td>
+                                <td className="px-4 py-4 text-right text-sm font-semibold text-gray-900">
+                                    ₹ {totalAmount}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>

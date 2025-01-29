@@ -16,6 +16,7 @@ type JamaatData = {
             status: { name: string; id: string; createdAt: Date; updatedAt: Date };
             towards: { name: string; id: string };
             amount: number;
+            message: string;
         }[];
     }[];
 };
@@ -27,6 +28,7 @@ type AccountData = {
         status: { name: string; id: string; createdAt: Date; updatedAt: Date };
         towards: { name: string; id: string };
         amount: number;
+        message: string;
     }[];
 };
 
@@ -128,7 +130,7 @@ const page = async ({
                     />
                 </div>
 
-                <Invoice transactions={allTransactions} towards={payeeName || 'Unknown Payee'} billingPeriod={tz || currentMonthYear} />
+                <Invoice transactions={allTransactions} towards={payeeName || 'Unknown Payee'} billingPeriod={tz || currentMonthYear}/>
             </div>
         );
     } catch (error) {
