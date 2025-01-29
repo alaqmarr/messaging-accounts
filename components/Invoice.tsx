@@ -142,6 +142,9 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
                         <thead className="bg-gray-50">
                             <tr>
                                 <th className="py-3 px-4 text-left text-sm font-semibold text-gray-900">
+                                    SNO
+                                </th>
+                                <th className="py-3 px-4 text-left text-sm font-semibold text-gray-900">
                                     Message
                                 </th>
                                 <th className="hidden sm:table-cell px-3 py-3 text-right text-sm font-semibold text-gray-900">
@@ -157,8 +160,11 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
                         </thead>
                         <tbody>
                             {
-                                transactions.map((transaction) => (
+                                transactions.map((transaction, index) => (
                                     <tr className="border-b border-gray-200">
+                                        <td className="py-4 px-4 text-sm">
+                                            {index + 1}
+                                        </td>
                                         <td className="py-4 px-4 text-sm">
                                             {
                                                 towards === 'Jamaat' && (
