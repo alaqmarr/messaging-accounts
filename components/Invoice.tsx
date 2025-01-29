@@ -67,7 +67,7 @@ const Invoice = ({ transactions, towards, billingPeriod }: {
                     </div>
                     <div className="text-right">
                         <p className="font-semibold text-lg">Toloba Ul Kulliyaat Il Mumenoon</p>
-                        <p className="text-gray-500 text-sm mt-1">+ 91 123456789</p>
+                        <p className="text-gray-500 text-sm mt-1">+ 91 90527 73029</p>
                     </div>
                 </div>
 
