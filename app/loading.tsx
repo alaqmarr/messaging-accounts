@@ -2,7 +2,7 @@ import React from 'react'
 
 const loading = () => {
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div className='flex justify-center items-center'>
       <div className="card">
         <div className="loader">
           <p>loading</p>
